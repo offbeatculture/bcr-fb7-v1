@@ -3,6 +3,11 @@ import BodyExperience from '../components/BodyExperience.jsx';
 import RegistrationForm from '../components/RegistrationForm.jsx';
 import { WORKSHOP } from '../data/content.js';
 import { useWorkshop } from '../components/WorkshopContext.jsx';
+import avatar1 from '../assets/avatars/avatar1.jpg';
+import avatar2 from '../assets/avatars/avatar2.jpg';
+import avatar3 from '../assets/avatars/avatar3.jpg';
+import avatar4 from '../assets/avatars/avatar4.jpg';
+import avatar5 from '../assets/avatars/avatar5.jpg';
 
 export default function Hero() {
   const { date } = useWorkshop();
@@ -102,13 +107,7 @@ export default function Hero() {
               className="mt-8 flex items-center gap-4 text-[13px] font-sans text-ink-700"
             >
               <div className="flex -space-x-2">
-                {[
-                  'https://randomuser.me/api/portraits/thumb/women/4.jpg',
-                  'https://randomuser.me/api/portraits/thumb/men/65.jpg',
-                  'https://randomuser.me/api/portraits/thumb/women/46.jpg',
-                  'https://randomuser.me/api/portraits/thumb/men/59.jpg',
-                  'https://randomuser.me/api/portraits/thumb/women/18.jpg',
-                ].map((src, i) => (
+                {[avatar1, avatar2, avatar3, avatar4, avatar5].map((src, i) => (
                   <img
                     key={i}
                     src={src}
@@ -132,16 +131,17 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT - Body experience + form */}
+          {/* RIGHT - Body experience */}
           <div className="relative">
             <div className="hidden lg:block">
               <BodyExperience />
             </div>
-
-            <div id="register" className="mt-10 lg:mt-12 scroll-mt-24">
-              <RegistrationForm />
-            </div>
           </div>
+        </div>
+
+        {/* FORM - centered below the grid on desktop */}
+        <div id="register" className="mt-10 lg:mt-14 scroll-mt-24 max-w-xl mx-auto">
+          <RegistrationForm />
         </div>
       </div>
     </section>
