@@ -1,6 +1,24 @@
+import { useEffect } from 'react';
 import { THANK_YOU_BUTTON_URL } from './data/content.js';
 
 export default function ThankYou() {
+  useEffect(() => {
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Purchase', {
+        value: 99,
+        currency: 'INR',
+        content_name: 'Breath Chakra Reset - FB7',
+      });
+    }
+    if (typeof window.dataLayer !== 'undefined') {
+      window.dataLayer.push({
+        event: 'Purchase99',
+        value: 99,
+        currency: 'INR',
+      });
+    }
+  }, []);
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-cream-50 text-ink-900">
       {/* atmosphere - matches landing theme */}
