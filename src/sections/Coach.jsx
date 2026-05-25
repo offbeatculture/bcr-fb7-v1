@@ -1,5 +1,5 @@
 import Reveal from '../components/Reveal.jsx';
-import coachImg from '../assets/coach.png';
+import coachImg from '../assets/coach-sm.jpg';
 
 export default function Coach() {
   return (

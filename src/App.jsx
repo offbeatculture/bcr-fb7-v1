@@ -1,15 +1,21 @@
+import { lazy, Suspense } from 'react';
 import Nav from './components/Nav.jsx';
 import CursorAura from './components/CursorAura.jsx';
 import Hero from './sections/Hero.jsx';
-import PainPoints from './sections/PainPoints.jsx';
-import StatsBand from './sections/StatsBand.jsx';
-import BeforeAfter from './sections/BeforeAfter.jsx';
-import Inside from './sections/Inside.jsx';
-import Coach from './sections/Coach.jsx';
-import Testimonials from './sections/Testimonials.jsx';
-import FinalCTA from './sections/FinalCTA.jsx';
-import Footer from './sections/Footer.jsx';
 import { WorkshopProvider } from './components/WorkshopContext.jsx';
+
+const PainPoints = lazy(() => import('./sections/PainPoints.jsx'));
+const StatsBand = lazy(() => import('./sections/StatsBand.jsx'));
+const BeforeAfter = lazy(() => import('./sections/BeforeAfter.jsx'));
+const Inside = lazy(() => import('./sections/Inside.jsx'));
+const Coach = lazy(() => import('./sections/Coach.jsx'));
+const Testimonials = lazy(() => import('./sections/Testimonials.jsx'));
+const FinalCTA = lazy(() => import('./sections/FinalCTA.jsx'));
+const Footer = lazy(() => import('./sections/Footer.jsx'));
+
+function LazySection({ children }) {
+  return <Suspense fallback={<div className="py-20" />}>{children}</Suspense>;
+}
 
 export default function App() {
   return (
@@ -24,15 +30,15 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <PainPoints />
-        <StatsBand />
-        <BeforeAfter />
-        <Inside />
-        <Coach />
-        <Testimonials />
-        <FinalCTA />
+        <LazySection><PainPoints /></LazySection>
+        <LazySection><StatsBand /></LazySection>
+        <LazySection><BeforeAfter /></LazySection>
+        <LazySection><Inside /></LazySection>
+        <LazySection><Coach /></LazySection>
+        <LazySection><Testimonials /></LazySection>
+        <LazySection><FinalCTA /></LazySection>
       </main>
-      <Footer />
+      <LazySection><Footer /></LazySection>
     </WorkshopProvider>
   );
 }
