@@ -41,7 +41,7 @@ export default function Hero() {
               className="display text-[clamp(2.2rem,5.4vw,4.4rem)] mt-6 text-ink-900"
             >
               From{' '}
-              <span className="italic text-ink-700/85">tight body, broken sleep, poor gut, and racing mind</span>
+              <span className="italic text-rose-saree">tight body, broken sleep, poor gut, and racing mind</span>
               <span className="mx-2 sm:mx-3 inline-flex items-center align-middle text-teal-deep">
                 <ArrowFlow />
               </span>
