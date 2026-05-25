@@ -361,101 +361,120 @@ export default function BodyExperience() {
             <MeditationBody state={state} />
           </div>
         </motion.div>
-      </div>
 
-      {/* === BUTTON + CTA REVEAL === */}
-      <div className="mt-5 flex flex-col items-center gap-3">
+        {/* === INLINE CLICK TRIGGER (inside the animation area) === */}
         <AnimatePresence mode="wait">
-          {!isCalm ? (
+          {!isCalm && !isResetting && (
             <motion.button
-              key="reset-btn"
+              key="inline-reset"
               type="button"
               onClick={handleReset}
-              disabled={isResetting}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.4 }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="relative group inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-teal-deep text-cream-50 font-sans font-semibold text-[15px] shadow-lg shadow-teal-deep/30 disabled:opacity-80"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+              className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 cursor-pointer"
             >
-              <motion.span
-                aria-hidden
-                className="absolute inset-0 rounded-full border-2 border-gold/60"
-                animate={{ scale: [1, 1.18, 1], opacity: [0.7, 0, 0.7] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
-              />
-              <motion.span
-                aria-hidden
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                className="text-gold text-lg"
-              >
-                ✦
-              </motion.span>
-              {isResetting ? 'Releasing…' : 'Apply the Breath Chakra Reset'}
-              <motion.span
-                aria-hidden
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                →
-              </motion.span>
-            </motion.button>
-          ) : (
-            <motion.div
-              key="calm-cta"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="flex flex-col items-center gap-3 text-center"
-            >
-              <motion.p
-                className="font-serif italic text-[18px] sm:text-[20px] text-teal-deep"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-              >
-                Feel that? That’s a 5-second preview.
-              </motion.p>
-              <motion.p
-                className="font-sans text-[14px] text-ink-700 max-w-[360px]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.8 }}
-              >
-                In the full session, this becomes a state your body can access - anytime, anywhere.
-              </motion.p>
               <motion.div
-                className="flex flex-wrap items-center justify-center gap-3 mt-1"
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.0, duration: 0.6 }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-teal-deep/90 backdrop-blur-sm text-cream-50 font-sans font-semibold text-[13px] sm:text-[14px] shadow-lg shadow-teal-deep/40 ring-1 ring-gold/40"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <a href="#register" className="btn-primary group">
-                  Yes! I Want This - Only ₹{WORKSHOP.priceNow}
-                  <motion.span
-                    aria-hidden
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    →
-                  </motion.span>
-                </a>
-                <button
-                  type="button"
-                  onClick={handleAgain}
-                  className="text-[13px] font-sans text-ink-700 underline-offset-4 hover:underline"
+                <motion.span
+                  aria-hidden
+                  className="absolute inset-0 rounded-full border-2 border-gold/50"
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0, 0.6] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                />
+                <motion.span
+                  aria-hidden
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                  className="text-gold text-base"
                 >
-                  Feel it again
-                </button>
+                  ✦
+                </motion.span>
+                Click Here to Feel the Reset
+                <motion.span
+                  aria-hidden
+                  animate={{ x: [0, 3, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  →
+                </motion.span>
               </motion.div>
+            </motion.button>
+          )}
+          {isResetting && (
+            <motion.div
+              key="resetting-label"
+              className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="px-4 py-2.5 rounded-full bg-gold/20 backdrop-blur-sm text-ink-900 font-sans font-semibold text-[13px] ring-1 ring-gold/40">
+                Releasing…
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
+
+      {/* === CTA after calm state === */}
+      <AnimatePresence>
+        {isCalm && (
+          <motion.div
+            key="calm-cta"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-5 flex flex-col items-center gap-3 text-center"
+          >
+            <motion.p
+              className="font-serif italic text-[18px] sm:text-[20px] text-teal-deep"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
+              Feel that? That's a 5-second preview.
+            </motion.p>
+            <motion.p
+              className="font-sans text-[14px] text-ink-700 max-w-[360px]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+            >
+              In the full session, this becomes a state your body can access - anytime, anywhere.
+            </motion.p>
+            <motion.div
+              className="flex flex-wrap items-center justify-center gap-3 mt-1"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, duration: 0.6 }}
+            >
+              <a href="#register" className="btn-primary group">
+                Yes! I Want This - Only ₹{WORKSHOP.priceNow}
+                <motion.span
+                  aria-hidden
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  →
+                </motion.span>
+              </a>
+              <button
+                type="button"
+                onClick={handleAgain}
+                className="text-[13px] font-sans text-ink-700 underline-offset-4 hover:underline"
+              >
+                Feel it again
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
