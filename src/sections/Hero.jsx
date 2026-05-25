@@ -103,11 +103,11 @@ export default function Hero() {
             >
               <div className="flex -space-x-2">
                 {[
-                  'https://i.pravatar.cc/56?img=32',
-                  'https://i.pravatar.cc/56?img=47',
-                  'https://i.pravatar.cc/56?img=12',
-                  'https://i.pravatar.cc/56?img=26',
-                  'https://i.pravatar.cc/56?img=5',
+                  'https://randomuser.me/api/portraits/thumb/women/67.jpg',
+                  'https://randomuser.me/api/portraits/thumb/men/81.jpg',
+                  'https://randomuser.me/api/portraits/thumb/women/90.jpg',
+                  'https://randomuser.me/api/portraits/thumb/men/86.jpg',
+                  'https://randomuser.me/api/portraits/thumb/women/41.jpg',
                 ].map((src, i) => (
                   <img
                     key={i}
