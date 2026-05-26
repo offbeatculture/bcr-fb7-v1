@@ -25,7 +25,7 @@ export const LEADS_WEBHOOK_TEST_URL =
 
 export const RAZORPAY_PAGE_URL = 'https://pages.razorpay.com/bcr-fb7';
 
-export const THANK_YOU_BUTTON_URL = 'https://er.valarmathisrinivasan.in/ty-er-fb7';
+export const THANK_YOU_BUTTON_URL = 'http://join.valarmathisrinivasan.in/fb-wap';
 
 export const PAIN_POINTS = [
   {
