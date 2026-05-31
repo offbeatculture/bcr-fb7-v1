@@ -3,18 +3,16 @@ import {
   WORKSHOP,
   PROFESSIONS,
   REASONS,
+  LEADS_SHEET_WEBAPP_URL,
   LEADS_WEBHOOK_URL,
-  RAZORPAY_PAGE_URL,
-  SOURCE,
 } from '../data/content.js';
 import { useWorkshop } from './WorkshopContext.jsx';
+import { useRoute } from './RouteContext.jsx';
 
-function buildRazorpayUrl(data) {
+function buildRazorpayUrl(data, routeConfig) {
   const params = new URLSearchParams();
-  // Razorpay Name field - try multiple known field-id variants so it always pre-fills
   const fullName = (data.name || '').trim();
   ['name', 'Name', 'customer_name', 'full_name', 'fullname'].forEach((k) => params.set(k, fullName));
-  // First-name fallback (some Razorpay pages split into first/last)
   const [firstName, ...rest] = fullName.split(/\s+/);
   params.set('first_name', firstName || '');
   params.set('last_name', rest.join(' '));
@@ -25,17 +23,20 @@ function buildRazorpayUrl(data) {
   params.set('contact', data.phone || '');
   params.set('profession', data.profession || '');
   params.set('reason', data.reason || '');
-  // UTM passthrough (empty defaults if missing)
+
   const urlParams = new URLSearchParams(window.location.search);
-  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fclid'].forEach((k) => {
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach((k) => {
     params.set(k, urlParams.get(k) || '');
   });
-  params.set('source', SOURCE);
-  return `${RAZORPAY_PAGE_URL}?${params.toString()}`;
+  params.set('fbclid', urlParams.get('fbclid') || '');
+  params.set('gclid', urlParams.get('gclid') || '');
+  params.set('source', routeConfig.source);
+  return `${routeConfig.razorpayUrl}?${params.toString()}`;
 }
 
 export default function RegistrationForm({ compact = false }) {
   const { date, day, time } = useWorkshop();
+  const routeConfig = useRoute();
   const [status, setStatus] = useState('idle');
   const [errors, setErrors] = useState({});
 
@@ -71,30 +72,46 @@ export default function RegistrationForm({ compact = false }) {
       whatsapp_number: data.phone,
       profession: data.profession,
       reason: data.reason,
-      source: SOURCE,
-      utm_source: urlParams.get('utm_source') || '',
+      source: routeConfig.source,
+      utm_source: urlParams.get('utm_source') || routeConfig.source,
       utm_medium: urlParams.get('utm_medium') || '',
       utm_campaign: urlParams.get('utm_campaign') || '',
       utm_content: urlParams.get('utm_content') || '',
       utm_term: urlParams.get('utm_term') || '',
-      fclid: urlParams.get('fclid') || '',
+      fbclid: urlParams.get('fbclid') || '',
+      gclid: urlParams.get('gclid') || '',
       page_url: window.location.href,
       submitted_at: new Date().toISOString(),
     };
 
-    try {
-      await fetch(LEADS_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        mode: 'no-cors',
-        keepalive: true,
-      });
-    } catch {
-      /* swallow - webhook is fire-and-forget; we still redirect to payment */
+    // Fire-and-forget to Google Sheets Apps Script
+    const sheetUrl = LEADS_SHEET_WEBAPP_URL;
+    if (sheetUrl && !sheetUrl.startsWith('PASTE')) {
+      try {
+        fetch(sheetUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          mode: 'no-cors',
+          keepalive: true,
+        });
+      } catch { /* fire-and-forget */ }
     }
 
-    window.location.href = buildRazorpayUrl(data);
+    // Legacy n8n webhook fallback (fb7 only)
+    if (routeConfig.source === 'fb7') {
+      try {
+        fetch(LEADS_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          mode: 'no-cors',
+          keepalive: true,
+        });
+      } catch { /* fire-and-forget */ }
+    }
+
+    window.location.href = buildRazorpayUrl(data, routeConfig);
   };
 
   return (

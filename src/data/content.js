@@ -16,14 +16,17 @@ export const SCHEDULE_SHEET = {
   gid: '138894925',
 };
 
-export const SOURCE = 'fb7';
+// ── Route-specific values (SOURCE, RAZORPAY_PAGE_URL, etc.) are now in
+//    src/data/routeConfig.js and accessed via useRoute() context.
 
+// Google Apps Script web-app URL for direct sheet writes.
+// Deploy leads-script/Code.gs and paste the URL here.
+export const LEADS_SHEET_WEBAPP_URL =
+  'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+// Legacy n8n webhooks (kept as fallback reference)
 export const LEADS_WEBHOOK_URL =
   'https://offbeatn8n.coachswastik.com/webhook/bcr-fb7-leads';
-export const LEADS_WEBHOOK_TEST_URL =
-  'https://offbeatn8n.coachswastik.com/webhook-test/bcr-fb7-leads';
-
-export const RAZORPAY_PAGE_URL = 'https://pages.razorpay.com/bcr-fb7';
 
 export const THANK_YOU_BUTTON_URL = 'http://join.valarmathisrinivasan.in/fb-wap';
 

@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
-import { THANK_YOU_BUTTON_URL } from './data/content.js';
+import { useRoute } from './components/RouteContext.jsx';
 
 export default function ThankYou() {
+  const routeConfig = useRoute();
+
   useEffect(() => {
     if (typeof window.fbq === 'function') {
       window.fbq('track', 'Purchase', {
         value: 99,
         currency: 'INR',
-        content_name: 'Breath Chakra Reset - FB7',
+        content_name: routeConfig.trackingName,
       });
     }
     if (typeof window.dataLayer !== 'undefined') {
@@ -17,7 +19,7 @@ export default function ThankYou() {
         currency: 'INR',
       });
     }
-  }, []);
+  }, [routeConfig.trackingName]);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-cream-50 text-ink-900">
@@ -59,7 +61,7 @@ export default function ThankYou() {
         </p>
 
         <a
-          href={THANK_YOU_BUTTON_URL}
+          href={routeConfig.thankYouButtonUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary mt-10 !px-8 !py-5 !text-[16px]"
