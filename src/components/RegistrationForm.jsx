@@ -11,25 +11,22 @@ import { useRoute } from './RouteContext.jsx';
 function buildRazorpayUrl(data, routeConfig) {
   const params = new URLSearchParams();
   const fullName = (data.name || '').trim();
+  const rawPhone = stripCountryCode(data.phone || '');
 
-  // Razorpay UDF field is "name" — only send that one to avoid confusion
+  // Only send what Razorpay's UDF fields need — keep URL short
   params.set('name', fullName);
-
   params.set('email', data.email || '');
-  params.set('whatsapp_number', data.phone || '');
-  params.set('phone', data.phone || '');
-  params.set('contact', data.phone || '');
+  params.set('whatsapp_number', rawPhone);
   params.set('profession', data.profession || '');
-  params.set('reason', data.reason || '');
-
-  const urlParams = new URLSearchParams(window.location.search);
-  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach((k) => {
-    params.set(k, urlParams.get(k) || '');
-  });
-  params.set('fbclid', urlParams.get('fbclid') || '');
-  params.set('gclid', urlParams.get('gclid') || '');
   params.set('source', routeConfig.source);
   return `${routeConfig.razorpayUrl}?${params.toString()}`;
+}
+
+// Strip +91 / 91 prefix so downstream systems (Zacx, sheets) get bare 10-digit numbers
+function stripCountryCode(phone) {
+  const digits = (phone || '').replace(/\D/g, '');
+  if (digits.length > 10 && digits.startsWith('91')) return digits.slice(2);
+  return digits;
 }
 
 export default function RegistrationForm({ compact = false }) {
@@ -63,11 +60,12 @@ export default function RegistrationForm({ compact = false }) {
     setStatus('submitting');
 
     const urlParams = new URLSearchParams(window.location.search);
+    const cleanPhone = stripCountryCode(data.phone || '');
     const payload = {
       name: data.name,
       email: data.email,
-      phone: data.phone,
-      whatsapp_number: data.phone,
+      phone: cleanPhone,
+      whatsapp_number: cleanPhone,
       profession: data.profession,
       reason: data.reason,
       source: routeConfig.source,
@@ -156,14 +154,9 @@ export default function RegistrationForm({ compact = false }) {
             spellCheck={false}
             error={errors.email}
           />
-          <Field
+          <PhoneField
             label="WhatsApp number"
             name="phone"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            placeholder="+91 90000 00000"
-            spellCheck={false}
             error={errors.phone}
           />
         </div>
@@ -223,6 +216,36 @@ function Field({ label, name, type = 'text', error, ...rest }) {
         aria-describedby={error ? `${name}-error` : undefined}
         {...rest}
       />
+      {error && (
+        <p id={`${name}-error`} className="text-rose-saree text-[12px] mt-1.5 font-sans" role="alert">{error}</p>
+      )}
+    </div>
+  );
+}
+
+function PhoneField({ label, name, error }) {
+  return (
+    <div>
+      <label htmlFor={name} className="block text-[12px] font-sans font-semibold uppercase tracking-[0.16em] text-ink-700 mb-1.5">
+        {label}
+      </label>
+      <div className={`flex items-center bg-cream-100 rounded-xl ring-1 transition focus-within:ring-2 ${
+        error ? 'ring-rose-saree/60 focus-within:ring-rose-saree' : 'ring-ink-900/10 focus-within:ring-teal-deep'
+      }`}>
+        <span className="pl-4 pr-1.5 text-[15px] font-sans text-ink-500 select-none whitespace-nowrap">+91</span>
+        <input
+          id={name}
+          name={name}
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+          placeholder="90000 00000"
+          spellCheck={false}
+          className="flex-1 bg-transparent rounded-r-xl px-2 py-3.5 text-[15px] font-sans text-ink-900 focus:outline-none"
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? `${name}-error` : undefined}
+        />
+      </div>
       {error && (
         <p id={`${name}-error`} className="text-rose-saree text-[12px] mt-1.5 font-sans" role="alert">{error}</p>
       )}
