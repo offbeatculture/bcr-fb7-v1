@@ -11,10 +11,9 @@ import { useRoute } from './RouteContext.jsx';
 function buildRazorpayUrl(data, routeConfig) {
   const params = new URLSearchParams();
   const fullName = (data.name || '').trim();
-  ['name', 'Name', 'customer_name', 'full_name', 'fullname'].forEach((k) => params.set(k, fullName));
-  const [firstName, ...rest] = fullName.split(/\s+/);
-  params.set('first_name', firstName || '');
-  params.set('last_name', rest.join(' '));
+
+  // Razorpay UDF field is "name" — only send that one to avoid confusion
+  params.set('name', fullName);
 
   params.set('email', data.email || '');
   params.set('whatsapp_number', data.phone || '');
