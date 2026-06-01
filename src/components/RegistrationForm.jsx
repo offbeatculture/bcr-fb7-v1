@@ -4,7 +4,6 @@ import {
   PROFESSIONS,
   REASONS,
   LEADS_SHEET_WEBAPP_URL,
-  LEADS_WEBHOOK_URL,
 } from '../data/content.js';
 import { useWorkshop } from './WorkshopContext.jsx';
 import { useRoute } from './RouteContext.jsx';
@@ -84,7 +83,7 @@ export default function RegistrationForm({ compact = false }) {
       submitted_at: new Date().toISOString(),
     };
 
-    // Fire-and-forget to Google Sheets Apps Script
+    // Fire-and-forget to Google Sheets Apps Script (fallback)
     const sheetUrl = LEADS_SHEET_WEBAPP_URL;
     if (sheetUrl && !sheetUrl.startsWith('PASTE')) {
       try {
@@ -98,10 +97,10 @@ export default function RegistrationForm({ compact = false }) {
       } catch { /* fire-and-forget */ }
     }
 
-    // Legacy n8n webhook fallback (fb7 only)
-    if (routeConfig.source === 'fb7') {
+    // n8n webhook (primary lead capture — BCR-FP7 / BCR-GA7)
+    if (routeConfig.webhookUrl) {
       try {
-        fetch(LEADS_WEBHOOK_URL, {
+        fetch(routeConfig.webhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),

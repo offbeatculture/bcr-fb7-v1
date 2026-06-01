@@ -7,18 +7,20 @@ const CONFIGS = {
   fb7: {
     source: 'fb7',
     razorpayUrl: 'https://pages.razorpay.com/bcr-fb7',
+    webhookUrl: 'https://offbeatn8n.coachswastik.com/webhook/bcr-fp7-leads',
     thankYouPath: '/ty-fb7',
     thankYouButtonUrl: 'http://join.valarmathisrinivasan.in/fb-wap',
     trackingName: 'Breath Chakra Reset - FB7',
-    sheetTab: 'Fb1 - 99.01 Leads',
+    sheetTab: 'Fb7 Leads',
   },
   ga7: {
     source: 'ga7',
     razorpayUrl: 'https://pages.razorpay.com/bcr-ga7',
+    webhookUrl: 'https://offbeatn8n.coachswastik.com/webhook/bcr-ga7-leads',
     thankYouPath: '/ty-ga7',
     thankYouButtonUrl: 'http://join.valarmathisrinivasan.in/fb-wap',
     trackingName: 'Breath Chakra Reset - GA7',
-    sheetTab: 'Ga5 - 99.03 Leads',
+    sheetTab: 'Ga7 Leads',
   },
 };
 

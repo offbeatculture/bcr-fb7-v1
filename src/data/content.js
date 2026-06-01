@@ -19,14 +19,12 @@ export const SCHEDULE_SHEET = {
 // ── Route-specific values (SOURCE, RAZORPAY_PAGE_URL, etc.) are now in
 //    src/data/routeConfig.js and accessed via useRoute() context.
 
-// Google Apps Script web-app URL for direct sheet writes.
+// Google Apps Script web-app URL for direct sheet writes (fallback).
 // Deploy leads-script/Code.gs and paste the URL here.
 export const LEADS_SHEET_WEBAPP_URL =
   'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
 
-// Legacy n8n webhooks (kept as fallback reference)
-export const LEADS_WEBHOOK_URL =
-  'https://offbeatn8n.coachswastik.com/webhook/bcr-fb7-leads';
+// n8n webhook URLs are now route-specific — see src/data/routeConfig.js
 
 export const THANK_YOU_BUTTON_URL = 'http://join.valarmathisrinivasan.in/fb-wap';
 

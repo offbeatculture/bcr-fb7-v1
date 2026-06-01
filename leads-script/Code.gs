@@ -15,8 +15,8 @@
  * 8. Paste that URL into src/data/content.js → LEADS_SHEET_WEBAPP_URL
  *
  * Tab routing:
- *   source "fb7" → "Fb1 - 99.01 Leads"
- *   source "ga7" → "Ga5 - 99.03 Leads"
+ *   source "fb7" → "Fb7 Leads"
+ *   source "ga7" → "Ga7 Leads"
  *
  * Expected POST payload:
  * {
@@ -28,11 +28,11 @@
  */
 
 var TAB_MAP = {
-  fb7: 'Fb1 - 99.01 Leads',
-  ga7: 'Ga5 - 99.03 Leads',
+  fb7: 'Fb7 Leads',
+  ga7: 'Ga7 Leads',
 };
 
-var DEFAULT_TAB = 'Fb1 - 99.01 Leads';
+var DEFAULT_TAB = 'Fb7 Leads';
 
 function doPost(e) {
   try {
@@ -50,7 +50,11 @@ function doPost(e) {
 
     // Columns: A=Timestamp, B=Name, C=Email, D=Phone, E=Profession,
     //          F=Why You Joined?, G=utm source, H=utm campaign,
-    //          I=utm medium, J=utm content, K=fbclid, L=gclid
+    //          I=utm medium, J=utm content, K=fbclid (fb7) or gclid (ga7)
+    var clickId = (data.source === 'ga7')
+      ? (data.gclid || '')
+      : (data.fbclid || '');
+
     sheet.appendRow([
       new Date(),
       data.name || '',
@@ -62,8 +66,7 @@ function doPost(e) {
       data.utm_campaign || '',
       data.utm_medium || '',
       data.utm_content || '',
-      data.fbclid || '',
-      data.gclid || '',
+      clickId,
     ]);
 
     return ContentService.createTextOutput(
