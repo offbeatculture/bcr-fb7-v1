@@ -15,13 +15,6 @@ export default function Footer() {
           <p className="text-[13px] font-sans">
             © {year} Offbeat Culture Private Limited.
           </p>
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-sans">
-            {['Privacy Policy', 'Terms', 'Refund Policy', 'Shipping', 'Contact'].map((l) => (
-              <li key={l}>
-                <a href="#" className="hover:text-cream-50 transition">{l}</a>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </footer>

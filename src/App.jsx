@@ -10,6 +10,7 @@ const BeforeAfter = lazy(() => import('./sections/BeforeAfter.jsx'));
 const Inside = lazy(() => import('./sections/Inside.jsx'));
 const Coach = lazy(() => import('./sections/Coach.jsx'));
 const Testimonials = lazy(() => import('./sections/Testimonials.jsx'));
+const FAQ = lazy(() => import('./sections/FAQ.jsx'));
 const FinalCTA = lazy(() => import('./sections/FinalCTA.jsx'));
 const Footer = lazy(() => import('./sections/Footer.jsx'));
 
@@ -36,6 +37,7 @@ export default function App() {
         <LazySection><Inside /></LazySection>
         <LazySection><Coach /></LazySection>
         <LazySection><Testimonials /></LazySection>
+        <LazySection><FAQ /></LazySection>
         <LazySection><FinalCTA /></LazySection>
       </main>
       <LazySection><Footer /></LazySection>

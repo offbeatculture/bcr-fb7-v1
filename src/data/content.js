@@ -186,6 +186,26 @@ export const FAQS = [
     q: 'I don’t have a serious health issue. I just feel tired and stressed. Is this for me?',
     a: 'You don’t need a diagnosis to know something isn’t right. If your body hasn’t felt like yours in a while, this is for you.',
   },
+  {
+    q: 'Will I get the recording?',
+    a: 'You will get the recording only if you opt in for the recording during checkout.',
+  },
+  {
+    q: 'Is it in Hindi or English?',
+    a: 'This workshop will be conducted in basic English only.',
+  },
+  {
+    q: 'What is the duration?',
+    a: 'It is a 2.5 hours program.',
+  },
+  {
+    q: 'What are the next steps after registering for the Masterclass?',
+    a: 'You have to join the WhatsApp group for the Masterclass. All announcements will be communicated in the group. We will also share the Masterclass link in the WhatsApp group itself.',
+  },
+  {
+    q: 'Is it live?',
+    a: 'This Masterclass was originally recorded during a live session and is now available as a limited-time broadcast. You’ll experience the full energy of the original session, just like those who attended it live.',
+  },
 ];
 
 export const PROFESSIONS = [
