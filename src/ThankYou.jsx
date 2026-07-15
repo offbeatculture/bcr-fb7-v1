@@ -71,7 +71,7 @@ export default function ThankYou() {
         </a>
 
         <p className="font-sans text-[14px] text-ink-500 mt-6 max-w-md">
-          Important details and the Zoom link will be shared in the group.
+          Important details and Zoom link will be shared in the group.
         </p>
 
         <div className="mt-16 flex items-center gap-2.5 text-ink-700">
