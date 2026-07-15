@@ -19,7 +19,9 @@ function buildRazorpayUrl(data, routeConfig) {
   params.set('whatsapp_number', rawPhone);
   params.set('profession', data.profession || '');
   params.set('source', routeConfig.source);
-  return `${routeConfig.razorpayUrl}?${params.toString()}`;
+  // razorpayUrl may already carry a query (e.g. ?lpsource=fb7) — join accordingly
+  const sep = routeConfig.razorpayUrl.includes('?') ? '&' : '?';
+  return `${routeConfig.razorpayUrl}${sep}${params.toString()}`;
 }
 
 // Strip +91 / 91 prefix so downstream systems (Zacx, sheets) get bare 10-digit numbers

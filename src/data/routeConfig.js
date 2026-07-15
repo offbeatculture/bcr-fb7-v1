@@ -6,7 +6,7 @@
 const CONFIGS = {
   fb7: {
     source: 'fb7',
-    razorpayUrl: 'https://pages.razorpay.com/bcr-fb7',
+    razorpayUrl: 'https://pages.razorpay.com/bcr-fb?lpsource=fb7',
     webhookUrl: 'https://offbeatn8n.coachswastik.com/webhook/bcr-fp7-leads',
     thankYouPath: '/ty-bcr-fb7',
     thankYouButtonUrl: 'http://join.valarmathisrinivasan.in/fb-wap',
@@ -15,7 +15,7 @@ const CONFIGS = {
   },
   ga7: {
     source: 'ga7',
-    razorpayUrl: 'https://pages.razorpay.com/bcr-ga7',
+    razorpayUrl: 'https://pages.razorpay.com/bcr-ga?lpsource=ga7',
     webhookUrl: 'https://offbeatn8n.coachswastik.com/webhook/bcr-ga7-leads',
     thankYouPath: '/ty-bcr-ga7',
     thankYouButtonUrl: 'http://join.valarmathisrinivasan.in/fb-wap',
