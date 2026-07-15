@@ -62,8 +62,6 @@ export default function ThankYou() {
 
         <a
           href={routeConfig.thankYouButtonUrl}
-          target="_blank"
-          rel="noopener noreferrer"
           className="btn-primary mt-10 !px-8 !py-5 !text-[16px]"
         >
           <span aria-hidden>👉</span>
